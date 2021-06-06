@@ -1,0 +1,75 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.loginWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 50px;
+}
+
+.logo > img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+
+.loginDesc {
+  font-size: 24px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 800;
+  color: #1775ee;
+  margin-bottom: 20px;
+}
+
+.loginBox {
+  width: 400px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-form {
+  width: 80%;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+  margin: 10px;
+}
+
+.input-form:focus{
+  outline: none;
+}
+
+.loginButton{
+  margin-top: 10px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1775ee;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 40px;
+}
+
+.hasAccount {
+  margin-top: 10px;
+  text-align: center;
+}
+

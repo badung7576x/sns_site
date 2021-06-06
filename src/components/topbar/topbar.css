@@ -1,0 +1,97 @@
+.topbarContainer {
+  height: 50px;
+  width: 100%;
+  background-color: #80afee;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.topbarLeft {
+  display: flex;
+  flex: 3;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.topbarLeft > img {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 0 10px 0 20px;
+}
+
+.topbarLeft > span {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.topbarCenter {
+  flex: 3;
+  color: white;
+}
+
+.topbarIcons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+
+.topbarIcons > .active {
+  color: #0974ff;  
+}
+
+.topbarRight {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.avatarBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: white;
+  margin-right: 20px;
+}
+
+.avatarBox > .avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.avatarBox > .name {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.searchbar {
+  width: 50%;
+  height: 30px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  font-size: 20px !important;
+  margin-left: 10px;
+}
+
+.searchInput {
+  border: none;
+  width: 70%;
+}
+
+.searchInput:focus {
+  outline: none;
+}
