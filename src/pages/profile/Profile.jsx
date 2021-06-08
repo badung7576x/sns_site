@@ -36,7 +36,7 @@ export default function Profile() {
             {/* <Rightbar profile/> */}
           </div>
         </div>
-        <div style={{flex: 2}}></div>
+        <div style={{flex: 3}}></div>
       </div>
       
     </>

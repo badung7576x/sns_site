@@ -1,0 +1,8 @@
+.follow {
+  display: flex;
+}
+
+.followWrapper {
+  flex: 9;
+  margin-top: 10px;
+}

@@ -41,6 +41,10 @@
   flex-direction: row;
 }
 
+.topbarIcons > a {
+  color: #fff;  
+}
+
 .topbarIcons > .active {
   color: #0974ff;  
 }

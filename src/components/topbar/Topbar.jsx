@@ -1,5 +1,8 @@
 import "./topbar.css";
 import { Home, Group, AccountCircle } from "@material-ui/icons";
+import {
+  NavLink
+} from "react-router-dom";
 
 export default function Topbar() {
   return (
@@ -10,25 +13,18 @@ export default function Topbar() {
       </div>
       <div className="topbarCenter">
         <div className="topbarIcons">
-          <div className="active">
+          <NavLink exact to="/">
             <Home />
-          </div>
-          <div>
+          </NavLink>
+          <NavLink exact to="/users">
             <Group />
-          </div>
-          <div>
+          </NavLink>
+          <NavLink exact to="/profile">
             <AccountCircle />
-          </div>
+          </NavLink>
         </div>
       </div>
       <div className="topbarRight">
-        {/* <div className="searchbar">
-          <Search className="searchIcon" />
-          <input
-            placeholder="Search for friend, post or video"
-            className="searchInput"
-          />
-        </div> */}
         <div className="avatarBox">
           <img src="/assets/person/1.jpeg" alt="" className="avatar"/>
           <span className="name">バズン</span>

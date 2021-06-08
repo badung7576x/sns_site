@@ -1,0 +1,5 @@
+.box__contain {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
