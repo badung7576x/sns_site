@@ -1,9 +1,11 @@
 import "./share.css";
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
-export default function Share({showModal}) {
+export default function Share({showModal, content}) {
 
   const focusInput = () =>  {
-    // showModal()
+    showModal()
   }
   return (
     <div className="share">
@@ -13,7 +15,8 @@ export default function Share({showModal}) {
           <input
             placeholder="何をしている？"
             className="shareInput"
-            onFocus={focusInput}
+            readOnly value = {content}
+            onClick={focusInput}
           />
         </div>
       </div>
