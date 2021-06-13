@@ -4,12 +4,13 @@
   background-color: #f0f2f5;
 }
 
-.loginWrapper {
+.loginWrapper, .loginWrapper>a {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
+  text-decoration: none;
 }
 
 .logo > img {
@@ -31,7 +32,7 @@
 }
 
 .loginBox {
-  width: 400px;
+  width: 450px;
   padding: 20px;
   background-color: white;
   border-radius: 10px;
@@ -39,20 +40,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-}
-
-.input-form {
-  width: 80%;
-  height: 50px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  font-size: 18px;
-  padding-left: 20px;
-  margin: 10px;
-}
-
-.input-form:focus{
-  outline: none;
+  flex-wrap: wrap;
 }
 
 .loginButton{

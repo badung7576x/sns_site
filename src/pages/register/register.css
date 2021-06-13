@@ -4,12 +4,13 @@
   background-color: #f0f2f5;
 }
 
-.registerWrapper {
+.registerWrapper, .registerWrapper>a {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-top: 50px;
+  padding-top: 20px;
+  text-decoration: none;
 }
 
 .logo > img {
@@ -31,7 +32,7 @@
 }
 
 .registerBox {
-  width: 400px;
+  width: 450px;
   padding: 20px;
   background-color: white;
   border-radius: 10px;

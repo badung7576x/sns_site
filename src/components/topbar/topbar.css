@@ -1,5 +1,5 @@
 .topbarContainer {
-  height: 50px;
+  height: 60px;
   width: 100%;
   background-color: #80afee;
   display: flex;
@@ -9,21 +9,25 @@
   z-index: 999;
 }
 
-.topbarLeft {
+.topbarLeft, .topbarLeft > a {
   display: flex;
   flex: 3;
   justify-content: flex-start;
   align-items: center;
 }
 
-.topbarLeft > img {
+.topbarLeft > a {
+  text-decoration: none;
+}
+
+.topbarLeft > a > img {
   width: 30px;
   height: 30px;
   border-radius: 30px;
   margin: 0 10px 0 20px;
 }
 
-.topbarLeft > span {
+.topbarLeft > a > span {
   font-size: 24px;
   font-weight: bold;
   color: white;
@@ -64,6 +68,10 @@
   margin-right: 20px;
 }
 
+.avatarBox:hover {
+  cursor: pointer;
+}
+
 .avatarBox > .avatar {
   width: 35px;
   height: 35px;
@@ -98,4 +106,27 @@
 
 .searchInput:focus {
   outline: none;
+}
+
+
+.btnBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: white;
+  margin-right: 20px;
+}
+
+.btnBox > a {
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid white;
+  margin: 0 2px;
+}
+
+.btnBox > a:hover {
+  color: #0974ff;
+  border: 1px solid #0974ff;
 }
