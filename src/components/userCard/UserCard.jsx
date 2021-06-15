@@ -12,8 +12,8 @@ export default function UserCard({user, canFollow}) {
   return (
     <Card className='card__contain'>
       <CardContent className="card__topBox">
-        <Avatar alt={user.username} src={user.profilePicture} className='card__avatar' />
-        <h3 className="card__username">{user.username}</h3>
+        <Avatar alt={user.nickname} src={user?.avatar  || 'assets/no_avatar.png'} className='card__avatar' />
+        <h3 className="card__username">{user.nickname}</h3>
       </CardContent>
       { canFollow ? (<CardActions>
         <Button

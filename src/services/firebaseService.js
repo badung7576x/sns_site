@@ -1,5 +1,8 @@
 import config from '../utils/config'
-import firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+// import 'firebase/storage';
 
 firebase.initializeApp(config);
 
@@ -7,6 +10,13 @@ export const db = firebase.firestore()
 export const auth = firebase.auth()
 
 export default class FirebaseService {
+
+  static async setDocumentToCollection(collection, document, data) {
+    await db.collection(collection).doc(document).set(data).then(() => {
+      console.error("Set data success");
+    })
+  }
+
   static async getDocument(collection, document) {
     return await db.collection(collection).doc(document).get().then((doc) => {
       if (doc.exists) {
@@ -36,15 +46,55 @@ export default class FirebaseService {
     });
   }
 
+  static async updateDocument(collection, document, data) {
+    await db.collection(collection).doc(document).update(data).then(() => {
+      console.log("Document successfully updated!");
+    }).catch((error) => {
+        console.error("Error updating document: ", error);
+    });
+  }
+
   static async createAccountWithEmailAndPassword(email, password) {
     return await auth.createUserWithEmailAndPassword(email, password).then((data) => {
-      return data.user
-    })
+      return {
+        error: false, 
+        user: data.user
+      }
+    }).catch((error) => {
+      console.error("Error create account with Authentication: ", error)
+      if(error.code === 'auth/email-already-in-use') {
+        return {
+          error: true,
+          message: "メールアドレスが登録されました"
+        }
+      } else {
+        return {
+          error: true,
+          message: "登録中にエラーが発生しました、もう一度お試しください"
+        }
+      }
+    });
   }
 
   static async signInWithEmailAndPassword(email, password) {
     return await auth.signInWithEmailAndPassword(email, password).then((data) => {
-      return data.user
-    })
+      return {
+        error: false, 
+        user: data.user
+      }
+    }).catch((error) => {
+      console.error("Error when login: ", error)
+      if(error.code === 'auth/user-not-found') {
+        return {
+          error: true,
+          message: "アカウントが見つかりません"
+        }
+      } else if (error.code === 'auth/wrong-password'){
+        return {
+          error: true,
+          message: "パスワードが正しくない"
+        }
+      }
+    });
   }
 }

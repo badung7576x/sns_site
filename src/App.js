@@ -13,7 +13,10 @@ import {
 import { Provider } from "react-redux";
 import store from './redux/store';
 import { getUserData } from './redux/actions/userActions';
-import { getUsers } from "./redux/actions/dataActions";
+import { getPosts, getUsers } from "./redux/actions/dataActions";
+import moment from 'moment'
+import 'moment/locale/ja';
+moment.locale('ja')
 
 function App() {
 
@@ -23,6 +26,7 @@ function App() {
       store.dispatch(getUserData(userId))
     }
     store.dispatch(getUsers())
+    store.dispatch(getPosts())
   }, [])
 
   return (

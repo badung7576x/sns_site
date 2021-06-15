@@ -1,6 +1,8 @@
 import {
   SET_POSTS,
-  LOADING_USERS
+  LOADING_USERS,
+  LIKE_POST,
+  COMMENT_POST
 } from '../types';
 
 import FirebaseService from '../../services/firebaseService';
@@ -17,105 +19,15 @@ export const getUsers = () => async (dispatch) => {
   dispatch({type: LOADING_USERS, payload: users})
 };
 
-// export const getPost = (postId) => (dispatch) => {
-//   axios
-//     .get(`/post/${postId}`)
-//     .then((res) => {
-//       dispatch({
-//         type: SET_POST,
-//         payload: res.data
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
-// // Post a post
-// export const postPost = (newPost) => (dispatch) => {
-//   dispatch({ type: LOADING_UI });
-//   axios
-//     .post('/post', newPost)
-//     .then((res) => {
-//       dispatch({
-//         type: POST_POST,
-//         payload: res.data
-//       });
-//       dispatch(clearErrors());
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: SET_ERRORS,
-//         payload: err.response.data
-//       });
-//     });
-// };
-// // Like a post
-// export const likePost = (postId) => (dispatch) => {
-//   axios
-//     .get(`/post/${postId}/like`)
-//     .then((res) => {
-//       dispatch({
-//         type: LIKE_POST,
-//         payload: res.data
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
-// // Unlike a post
-// export const unlikePost = (postId) => (dispatch) => {
-//   axios
-//     .get(`/post/${postId}/unlike`)
-//     .then((res) => {
-//       dispatch({
-//         type: UNLIKE_POST,
-//         payload: res.data
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
-// // Submit a comment
-// export const submitComment = (postId, commentData) => (dispatch) => {
-//   axios
-//     .post(`/post/${postId}/comment`, commentData)
-//     .then((res) => {
-//       dispatch({
-//         type: SUBMIT_COMMENT,
-//         payload: res.data
-//       });
-//       dispatch(clearErrors());
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: SET_ERRORS,
-//         payload: err.response.data
-//       });
-//     });
-// };
-// export const deletePost = (postId) => (dispatch) => {
-//   axios
-//     .delete(`/post/${postId}`)
-//     .then(() => {
-//       dispatch({ type: DELETE_POST, payload: postId });
-//     })
-//     .catch((err) => console.log(err));
-// };
+// Like a post
+export const likePost = (postId, data) => async (dispatch) => {
+  await FirebaseService.updateDocument('posts', postId, data)
+  dispatch({type: LIKE_POST, payload: {postId: postId, data}})
+};
 
-// export const getUserData = (userId) => (dispatch) => {
-//   dispatch({ type: LOADING_DATA });
-//   axios
-//     .get(`/user/${userId}`)
-//     .then((res) => {
-//       dispatch({
-//         type: SET_POSTS,
-//         payload: res.data.posts
-//       });
-//     })
-//     .catch(() => {
-//       dispatch({
-//         type: SET_POSTS,
-//         payload: null
-//       });
-//     });
-// };
+// Like a post
+export const commentPost = (postId, data) => async (dispatch) => {
+  await FirebaseService.updateDocument('posts', postId, data)
+  dispatch({type: COMMENT_POST, payload: {postId: postId, data}})
+};
 
-// export const clearErrors = () => (dispatch) => {
-//   dispatch({ type: CLEAR_ERRORS });
-// };

@@ -1,8 +1,8 @@
 import "./share.css";
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { useSelector } from "react-redux";
 
 export default function Share({showModal, content}) {
+  const user = useSelector(state => state.user)
 
   const focusInput = () =>  {
     showModal()
@@ -11,7 +11,7 @@ export default function Share({showModal, content}) {
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img className="shareProfileImg" src="/assets/person/1.jpeg" alt="" />
+          <img className="shareProfileImg" src={user.credentials?.avatar  || 'assets/no_avatar.png'} alt="" />
           <input
             placeholder="何をしている？"
             className="shareInput"

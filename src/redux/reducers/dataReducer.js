@@ -1,11 +1,9 @@
 import {
   SET_POSTS,
   LIKE_POST,
-  UNLIKE_POST,
+  COMMENT_POST,
   DELETE_POST,
-  POST_POST,
   SET_POST,
-  SUBMIT_COMMENT,
   LOADING_USERS
 } from '../types';
 
@@ -33,13 +31,11 @@ const dataReducer = (state = initialState, action) => {
         post: action.payload
       };
     case LIKE_POST:
-    case UNLIKE_POST:
       let index = state.posts.findIndex(
-        (post) => post.postId === action.payload.postId
+        (post) => post.id === action.payload.postId
       );
-      state.posts[index] = action.payload;
-      if (state.post.postId === action.payload.postId) {
-        state.post = action.payload;
+      if(index !== -1) {
+        state.posts[index].post.likes = action.payload.data.likes;
       }
       return {
         ...state
@@ -52,18 +48,15 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state
       };
-    case POST_POST:
+    case COMMENT_POST:
+      let index2 = state.posts.findIndex(
+        (post) => post.id === action.payload.postId
+      );
+      if(index2 !== -1) {
+        state.posts[index2].comments = action.payload.data.comments;
+      }
       return {
-        ...state,
-        posts: [action.payload, ...state.posts]
-      };
-    case SUBMIT_COMMENT:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          comments: [action.payload, ...state.post.comments]
-        }
+        ...state
       };
     default:
       return state;

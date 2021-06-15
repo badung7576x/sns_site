@@ -1,30 +1,40 @@
 import {
   SET_USER,
-  LOG_OUT
+  LOG_OUT,
+  SET_ERRORS
 } from '../types';
 
 import FirebaseService from '../../services/firebaseService';
 
 export const loginUser = (userCredentials, history) => async (dispatch) => {
-  const user = await FirebaseService.signInWithEmailAndPassword(userCredentials.email, userCredentials.password);
-  localStorage.setItem('userId', user.uid)
-  dispatch(getUserData(user.uid))
-  history.push('/')
+  const res = await FirebaseService.signInWithEmailAndPassword(userCredentials.email, userCredentials.password);
+  if(!res.error) {
+    localStorage.setItem('userId', res.user.uid)
+    dispatch(getUserData(res.user.uid))
+    history.push('/')
+  } else {
+    dispatch({type: SET_ERRORS, payload: res.message})
+  }
+  
 };
 
 export const registerUser = (userCredentials, history) => async (dispatch) => {
-  const user = await FirebaseService.createAccountWithEmailAndPassword(userCredentials.email, userCredentials.password);
-  const userData = {
-    userId: user.uid,
-    nickname: userCredentials.nickname,
-    email: userCredentials.email,
-    avatar: '',
-    createdAt: new Date().toISOString(),
-  };
-  FirebaseService.setDocumentToCollection('users', user.uid, userData)
-  localStorage.setItem('userId', user.uid)
-  dispatch(getUserData(user.uid))
-  history.push('/')
+  const res = await FirebaseService.createAccountWithEmailAndPassword(userCredentials.email, userCredentials.password);
+  if(res.error) {
+    dispatch({type: SET_ERRORS, payload: res.message})
+  } else {
+    const userData = {
+      userId: res.user.uid,
+      nickname: userCredentials.nickname,
+      email: userCredentials.email,
+      avatar: '',
+      createdAt: new Date().toISOString(),
+    };
+    FirebaseService.setDocumentToCollection('users', res.user.uid, userData)
+    localStorage.setItem('userId', res.user.uid)
+    dispatch(getUserData(res.user.uid))
+    history.push('/')
+  }
 };
 
 
@@ -36,7 +46,6 @@ export const getUserData = (userId) => async (dispatch) => {
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('userId')
-  console.log('AAA')
   dispatch({type: LOG_OUT})
 };
 

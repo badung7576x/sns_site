@@ -8,7 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 import TabPanel from "../../components/tabPanel/TabPanel";
 import './follows.css'
 import UserCard from "../../components/userCard/UserCard";
-import { Users } from "../../dummyData";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +20,12 @@ export default function Follows() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
+
+  const me = useSelector(state => state.user.credentials)
+  let users = useSelector(state => state.data.users)
+  if(me) {
+    users = users.filter(user => user.id !== me.userId) 
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -54,19 +60,19 @@ export default function Follows() {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              {Users.map((u) => (
-                 <UserCard key={u.id} user={u} canFollow={true} />
+              {users && users.map((u, i) => (
+                 <UserCard key={i} user={u.user} canFollow={true} />
               ))}
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              {Users.map((u) => (
+              {/* {Users.map((u) => (
                  <UserCard key={u.id} user={u} canFollow={false} />
-              ))}
+              ))} */}
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-              {Users.map((u) => (
+              {/* {Users.map((u) => (
                  <UserCard key={u.id} user={u} canFollow={true} />
-              ))}
+              ))} */}
             </TabPanel>
           </SwipeableViews>
         </div>

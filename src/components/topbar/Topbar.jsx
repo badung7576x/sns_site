@@ -40,17 +40,17 @@ const Topbar = (props) => {
           <NavLink exact to="/users">
             <Group />
           </NavLink>
-          <NavLink exact to="/profile">
+          { user.authenticated && <NavLink exact to="/profile">
             <AccountCircle />
-          </NavLink>
+          </NavLink>}
         </div>
       </div>
       <div className="topbarRight">
         { user.authenticated ? (
           <div>
             <div className="avatarBox" onClick={handleClick}>
-              <img src={user.credentials.avatar || 'assets/no_avatar.png'} alt="" className="avatar"/>
-              <span className="name">{user.credentials.nickname}さん</span>
+              <img src={user?.credentials.avatar || 'assets/no_avatar.png'} alt="" className="avatar"/>
+              <span className="name">{user?.credentials.nickname}さん</span>
             </div>
             <Menu
               id="simple-menu"

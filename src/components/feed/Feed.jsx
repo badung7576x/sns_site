@@ -1,12 +1,10 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import Post from "../post/Post";
 import Share from "../share/Share";
 import { Modal, Input, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PhotoCameraOutlinedIcon from "@material-ui/icons/PhotoCameraOutlined";
 import "./feed.css";
-import { useSelector, useDispatch } from "react-redux";
-import { getPosts } from "../../redux/actions/dataActions";
 
 function getModalStyle() {
   const top = 50;
@@ -38,18 +36,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Feed() {
-  const dispatch = useDispatch();
+export default function Feed({posts}) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
-
-  const posts = useSelector((state) => state.data.posts);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -108,7 +99,7 @@ export default function Feed() {
       </Modal>
       <div className="feedWrapper">
         <Share showModal={handleOpen} content={draft} />
-        {posts ? posts.map((p) => <Post key={p.id} post={p.post} />) : ""}
+        {posts ? posts.map((p) => <Post key={p.id} post={{...p.post, 'id': p.id}} />) : ""}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { validateRegisterData } from '../../utils/validators'
 import { useSelector, useDispatch } from 'react-redux';
 import { registerUser } from '../../redux/actions/userActions';
+import { SET_ERRORS } from '../../redux/types';
 
 const CssTextField = withStyles({
   root: {
@@ -52,13 +53,15 @@ const Register = (props) => {
 
   const [nickname, setNickname] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState()
-  const [confirmPassword, setConfirmPassword] = useState()
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const history = useHistory()
 
-  const user = useSelector(state => state.user)
+  const error = useSelector(state => state.user.error)
+
   const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
@@ -77,6 +80,21 @@ const Register = (props) => {
     }
   };
 
+  const onChangeInput = (e) => {
+    setLoading(false)
+    setErrors([])
+    if(e.target.name === 'email') {
+      setEmail(e.target.value)
+    } else if (e.target.name === 'password') {
+      setPassword(e.target.value)
+    }  else if (e.target.name === 'nickname') {
+      setNickname(e.target.value)
+    }  else if (e.target.name === 'confirmPassword') {
+      setConfirmPassword(e.target.value)
+    }
+    dispatch({type: SET_ERRORS, payload: null})
+  }
+
   return (
     <div className="register">
       <div className="registerWrapper">
@@ -88,8 +106,9 @@ const Register = (props) => {
         </NavLink>
         <form noValidate onSubmit={handleSubmit}>
           <div className="registerBox">
+            {error && (<div className='error'>{error}</div>)}
             <CssTextField
-              id="nickname"
+              name="nickname"
               type="text"
               label="ニックネーム"
               variant="outlined"
@@ -97,10 +116,10 @@ const Register = (props) => {
               helperText={errors.nickname}
               error={errors.nickname ? true : false}
               value={nickname}
-              onChange={e => setNickname(e.target.value)}
+              onChange={onChangeInput}
             />
             <CssTextField
-              id="email"
+              name="email"
               type="email"
               label="メールアドレス"
               variant="outlined"
@@ -108,10 +127,10 @@ const Register = (props) => {
               helperText={errors.email}
               error={errors.email ? true : false}
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={onChangeInput}
             />
             <CssTextField
-              id="password"
+              name="password"
               type="password"
               label="パスワード"
               variant="outlined"
@@ -119,10 +138,10 @@ const Register = (props) => {
               helperText={errors.password}
               error={errors.password ? true : false}
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={onChangeInput}
             />
             <CssTextField
-              id="confirm-password"
+              name="confirmPassword"
               type="password"
               label="パスワード(確認)"
               variant="outlined"
@@ -130,7 +149,7 @@ const Register = (props) => {
               helperText={errors.confirmPassword}
               error={errors.confirmPassword ? true : false}
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={onChangeInput}
             />
 
             <Button
@@ -138,8 +157,8 @@ const Register = (props) => {
               variant="contained"
               color="primary"
               className={classes.registerBtn}
-              disabled={user.loading}
-            > {user.loading ? (
+              disabled={loading}
+            > {loading ? (
                 <CircularProgress size={30} className={classes.progress} />
               ) : '登録'}
             </Button>

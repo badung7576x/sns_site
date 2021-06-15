@@ -6,6 +6,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { validateLoginData } from '../../utils/validators'
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/actions/userActions';
+import { SET_ERRORS } from '../../redux/types';
 
 const CssTextField = withStyles({
   root: {
@@ -50,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState()
+  const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
   const [loading, setLoading] = useState(false)
 
   const history = useHistory()
 
-  const user = useSelector(state => state.user)
+  const error = useSelector(state => state.user.error)
   const dispatch = useDispatch()
   
   const handleSubmit = (e) => {
@@ -75,6 +76,17 @@ export default function Login() {
     }
   };
 
+  const onChangeInput = (e) => {
+    setLoading(false)
+    setErrors([])
+    if(e.target.name === 'email') {
+      setEmail(e.target.value)
+    } else if (e.target.name === 'password') {
+      setPassword(e.target.value)
+    }
+    dispatch({type: SET_ERRORS, payload: null})
+  }
+
   return (
     <div className="login">
       <div className="loginWrapper">
@@ -86,8 +98,9 @@ export default function Login() {
         </NavLink>
         <form noValidate onSubmit={handleSubmit}>
           <div className="loginBox">
+            {error && (<div className='error'>{error}</div>)}
             <CssTextField
-              id="email"
+              name="email"
               type="email"
               label="メールアドレス"
               variant="outlined"
@@ -95,10 +108,10 @@ export default function Login() {
               helperText={errors.email}
               error={errors.email ? true : false}
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={onChangeInput}
             />
             <CssTextField
-              id="password"
+              name="password"
               type="password"
               label="パスワード"
               variant="outlined"
@@ -106,7 +119,7 @@ export default function Login() {
               helperText={errors.password}
               error={errors.password ? true : false}
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={onChangeInput}
             />
 
             <Button

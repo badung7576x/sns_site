@@ -8,15 +8,14 @@ export default function Rightbar({ profile }) {
   if(me) {
     users = users.filter(user => user.id !== me.userId) 
   }
-  
 
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">
         <h4 className="rightbarTitle">おすすめユーザ</h4>
         <ul className="rightbarFriendList">
-          {users ? users.map((u) => (
-            <NewFriend key={u.userId} user={u.user} />
+          {users ? users.map((u, i) => (
+            <NewFriend key={i} user={u.user} />
           )) : ''}
         </ul> 
       </div>

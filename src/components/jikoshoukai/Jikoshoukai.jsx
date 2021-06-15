@@ -1,6 +1,6 @@
 import "./jikoshoukai.css";
 
-export default function Jikoshoukai() {
+export default function Jikoshoukai({content}) {
   return (
     <div className="jiko">
       <div className="jikoWrapper">
@@ -8,7 +8,7 @@ export default function Jikoshoukai() {
           <h4>自己紹介</h4>
           <hr />
           <div className="content">
-            山田 太朗です。〇〇中学出身で、3年間野球部でした。高校でも野球部に入ろうと思っています。
+            {content}
           </div>
         </div>
       </div>

@@ -56,6 +56,16 @@
   padding: 10px 40px;
 }
 
+.loginBox > .error {
+  background-color: #fbe1e1;
+  text-align: center;
+  padding: 10px 20px;
+  color: red;
+  border: 1px solid rgb(255, 113, 113);
+  border-radius: 5px;
+  margin: 10px;
+}
+
 .hasAccount {
   margin-top: 10px;
   text-align: center;

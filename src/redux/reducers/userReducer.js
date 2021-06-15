@@ -1,16 +1,12 @@
-import {
-  SET_USER,
-  LIKE_POST,
-  UNLIKE_POST,
-  LOG_OUT,
-} from '../types';
+import { SET_USER, LOG_OUT, SET_ERRORS } from "../types";
 
 const initialState = {
   authenticated: false,
+  error: null,
   credentials: {},
   follower: [],
   following: [],
-  likes: []
+  likes: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -18,33 +14,19 @@ const userReducer = (state = initialState, action) => {
     case SET_USER:
       return {
         authenticated: true,
-        ...action.payload
+        ...action.payload,
       };
     case LOG_OUT:
-        return {
-          authenticated: false,
-        };
-    case LIKE_POST:
       return {
-        ...state,
-        likes: [
-          ...state.likes,
-          {
-            userId: state.credentials.userId,
-            postId: action.payload.postId
-          }
-        ]
+        authenticated: false,
       };
-    case UNLIKE_POST:
+    case SET_ERRORS:
       return {
-        ...state,
-        likes: state.likes.filter(
-          (like) => like.postId !== action.payload.postId
-        )
-      };
+        error: action.payload
+      }
     default:
       return state;
   }
-}
+};
 
-export default userReducer
+export default userReducer;
