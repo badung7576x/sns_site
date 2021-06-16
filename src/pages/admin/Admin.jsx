@@ -18,19 +18,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 export default function Admin() {
   const classes = useStyles();
-  const me = useSelector(state => state.user.credentials)
   let users = useSelector(state => state.data.users)
   const posts = useSelector((state) => state.data.posts);
-  
-  if(me) {
-    users = users.filter(user => user.id !== me.userId) 
-  }
 
   console.log(posts)
 

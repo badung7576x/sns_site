@@ -6,10 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import PhotoCameraOutlinedIcon from "@material-ui/icons/PhotoCameraOutlined";
 import "./feed.css";
 import { writePost } from "../../redux/actions/userActions";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebase from "firebase";
-import FirebaseService from '../../services/firebaseService'; // for uploadImage function
-import { DraftsOutlined } from "@material-ui/icons";
 import { useEffect } from "react";
 
 function getModalStyle() {
@@ -100,12 +98,10 @@ export default function Feed({posts}) {
       setOpen(false);
       //dispatch(commentPost(post.id, {comments: [...comments, newComment]}))
       writePost(newPost, passImg);
-      setTimeout("location.reload(true);", 3000); // trick here cuz dunno how to do it properly
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 3000);
     }
-  }
-
-  const handleImage = info => {
-    const image = info.target.files[0];
   }
 
   return (
@@ -154,7 +150,7 @@ export default function Feed({posts}) {
           </Button>
           <br></br>
           <br></br>
-          <img id="preview" src={draftImg} alt="preview image" 
+          <img id="preview" src={draftImg} alt="preview" 
               style={{display: visibility, maxWidth: 180}}
           />
         </div>

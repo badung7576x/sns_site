@@ -42,9 +42,10 @@ export const getUserData = (userId) => async (dispatch) => {
   dispatch({type: SET_USER, payload: {credentials: userData}});
 };
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = (history) => (dispatch) => {
   localStorage.removeItem('userId')
   dispatch({type: LOG_OUT})
+  history.push('/')
 };
 
 export const updateInfo = async (userDetails) => {

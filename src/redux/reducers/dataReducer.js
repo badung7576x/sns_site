@@ -51,7 +51,7 @@ const dataReducer = (state = initialState, action) => {
       };
     case COMMENT_POST:
       if(index !== -1) {
-        state.posts[index].comments = action.payload.data.comments;
+        state.posts[index].post.comments = action.payload.data.comments;
       }
       return {
         ...state

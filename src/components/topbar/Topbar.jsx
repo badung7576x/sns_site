@@ -2,7 +2,7 @@ import {React, useState} from 'react'
 import "./topbar.css";
 import { Home, Group, AccountCircle, Assessment } from "@material-ui/icons";
 import {Menu, MenuItem } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/actions/userActions';
 
@@ -10,6 +10,7 @@ const Topbar = (props) => {
   const user = useSelector(state => state.user)
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch()
+  const history = useHistory()
   
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,7 +21,7 @@ const Topbar = (props) => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser())
+    dispatch(logoutUser(history))
     setAnchorEl(null);
   }
 
