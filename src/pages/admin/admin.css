@@ -1,0 +1,8 @@
+.admin {
+  display: flex;
+}
+
+.adminWrapper {
+  flex: 6.5;
+  margin-top: 10px;
+}

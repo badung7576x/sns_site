@@ -2,7 +2,8 @@ import {
   SET_POSTS,
   LOADING_USERS,
   LIKE_POST,
-  COMMENT_POST
+  COMMENT_POST, 
+  DELETE_POST
 } from '../types';
 
 import FirebaseService from '../../services/firebaseService';
@@ -29,5 +30,11 @@ export const likePost = (postId, data) => async (dispatch) => {
 export const commentPost = (postId, data) => async (dispatch) => {
   await FirebaseService.updateDocument('posts', postId, data)
   dispatch({type: COMMENT_POST, payload: {postId: postId, data}})
+};
+
+// Delete a post
+export const deletePost = (postId) => async (dispatch) => {
+  await FirebaseService.deleteDocument('posts', postId)
+  dispatch({type: DELETE_POST, payload: {postId: postId}})
 };
 

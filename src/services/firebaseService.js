@@ -64,6 +64,14 @@ export default class FirebaseService {
     });
   }
 
+  static async deleteDocument(collection, document) {
+    await db.collection(collection).doc(document).delete().then(() => {
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error delete document: ", error);
+    });
+  }
+
   static async createAccountWithEmailAndPassword(email, password) {
     return await auth.createUserWithEmailAndPassword(email, password).then((data) => {
       return {

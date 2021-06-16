@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import firebase from "firebase";
 import FirebaseService from '../../services/firebaseService'; // for uploadImage function
 import { DraftsOutlined } from "@material-ui/icons";
+import { useEffect } from "react";
 
 function getModalStyle() {
   const top = 50;
@@ -51,6 +52,11 @@ export default function Feed({posts}) {
   const [visibility, setVisibility] = useState("none");
   const [draftImg, setDraftImg] = useState(null);
   const [passImg, setPassImg] = useState(null);
+  const [listPosts, setListPosts] = useState(posts);
+
+  useEffect(() => {
+    setListPosts(posts)
+  }, [posts])
 
   const handleOpen = () => {
     setOpen(true);
@@ -100,7 +106,6 @@ export default function Feed({posts}) {
 
   const handleImage = info => {
     const image = info.target.files[0];
-    //updateAvatar(image);
   }
 
   return (
@@ -155,8 +160,8 @@ export default function Feed({posts}) {
         </div>
       </Modal>
       <div className="feedWrapper">
-        <Share showModal={handleOpen} content={draft} />
-        {posts ? posts.map((p) => <Post key={p.id} post={{...p.post, 'id': p.id}} />) : ""}
+        { user.authenticated && <Share showModal={handleOpen} content={draft} /> }
+        {listPosts && listPosts.map((p) => <Post key={p.id} post={{...p.post, 'id': p.id}}/>)}
       </div>
     </div>
   );

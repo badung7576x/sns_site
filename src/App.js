@@ -4,6 +4,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
+import Admin from "./pages/admin/Admin";
 import {
   BrowserRouter as Router,
   Switch,
@@ -48,6 +49,9 @@ function App() {
             </Route>
             <Route exact path="/register">
               <Register />
+            </Route>
+            <Route exact path="/admin">
+              <Admin />
             </Route>
           </Switch>
         </div>

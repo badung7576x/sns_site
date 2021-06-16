@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
-import {CardHeader, CardMedia, Grid, CardContent, CardActions, Collapse, Avatar, IconButton, Typography} from '@material-ui/core'
+import {CardHeader, CardMedia, Grid, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Menu, MenuItem} from '@material-ui/core'
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { likePost, commentPost } from "../../redux/actions/dataActions";
+import { likePost, commentPost, deletePost } from "../../redux/actions/dataActions";
 import firebase from "firebase";
 
 
@@ -90,13 +90,27 @@ export default function Post({ post }) {
       dispatch(commentPost(post.id, {comments: [...comments, newComment]}))
     }
   }
+
+  const handleDeletePost = () => {
+    dispatch(deletePost(post.id))
+    setAnchorEl(null);
+  }
   
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -106,7 +120,8 @@ export default function Post({ post }) {
           <Avatar alt="Remy Sharp" src={postUser?.user.avatar || 'assets/no_avatar.png'} className={classes.avatar}/>
         }
         action={
-          <IconButton aria-label="settings">
+          postUser.id === user.credentials?.userId && 
+          <IconButton aria-label="settings" onClick={handleClick}>
             <MoreVertIcon />
           </IconButton>
         }
@@ -117,6 +132,15 @@ export default function Post({ post }) {
           <span style={{fontSize: '16px'}} >{moment(post?.createdAt.toDate()).fromNow()}</span>
         }
       />
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleDeletePost}>投稿を削除</MenuItem>
+      </Menu>
       {post?.image && <CardMedia
         className={classes.media}
         image={post?.image}
@@ -162,7 +186,7 @@ export default function Post({ post }) {
                 <Grid item xs zeroMinWidth>
                   <h4 style={{ margin: 0, textAlign: "left" }}>{commentUser?.nickname}</h4>
                   <p style={{ textAlign: "left", color: "gray", fontSize: '14px' }}>
-                    {moment(c.createdAt.toDate()).fromNow()}
+                    {moment(c?.createdAt?.toDate()).fromNow()}
                   </p>
                   <p style={{ textAlign: "left", marginTop: '10px' }}>
                     {c.content}

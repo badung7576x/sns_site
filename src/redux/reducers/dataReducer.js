@@ -13,7 +13,12 @@ const initialState = {
 };
 
 const dataReducer = (state = initialState, action) => {
-  
+  let index = -1;
+  if (action?.payload?.postId) {
+    index = state.posts.findIndex(
+      (post) => post.id === action.payload.postId
+    );
+  }
   switch (action.type) {
     case SET_POSTS:
       return {
@@ -31,9 +36,6 @@ const dataReducer = (state = initialState, action) => {
         post: action.payload
       };
     case LIKE_POST:
-      let index = state.posts.findIndex(
-        (post) => post.id === action.payload.postId
-      );
       if(index !== -1) {
         state.posts[index].post.likes = action.payload.data.likes;
       }
@@ -41,19 +43,15 @@ const dataReducer = (state = initialState, action) => {
         ...state
       };
     case DELETE_POST:
-      index = state.posts.findIndex(
-        (post) => post.postId === action.payload
-      );
-      state.posts.splice(index, 1);
+      if(index !== -1) {
+        state.posts.splice(index, 1);
+      }
       return {
         ...state
       };
     case COMMENT_POST:
-      let index2 = state.posts.findIndex(
-        (post) => post.id === action.payload.postId
-      );
-      if(index2 !== -1) {
-        state.posts[index2].comments = action.payload.data.comments;
+      if(index !== -1) {
+        state.posts[index].comments = action.payload.data.comments;
       }
       return {
         ...state

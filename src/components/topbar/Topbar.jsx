@@ -1,6 +1,6 @@
 import {React, useState} from 'react'
 import "./topbar.css";
-import { Home, Group, AccountCircle } from "@material-ui/icons";
+import { Home, Group, AccountCircle, Assessment } from "@material-ui/icons";
 import {Menu, MenuItem } from '@material-ui/core';
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,6 +42,9 @@ const Topbar = (props) => {
           </NavLink>
           { user.authenticated && <NavLink exact to="/profile">
             <AccountCircle />
+          </NavLink>}
+          { user.authenticated && user.credentials.isAdmin && <NavLink exact to="/admin">
+            <Assessment />
           </NavLink>}
         </div>
       </div>
