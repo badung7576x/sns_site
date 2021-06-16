@@ -24,11 +24,13 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   input_content: {
     width: 300,
-    height: 50,
+    height: 100,
+    borderRadius: '10px',
+    border: '1px solid gray',
+    padding: '10px'
   },
   paper: {
     position: "absolute",
-    width: 400,
     backgroundColor: theme.palette.background.paper,
     borderRadius: "10px",
     boxShadow: theme.shadows[5],
@@ -96,7 +98,6 @@ export default function Feed({posts}) {
       setDraft("");
       setVisibility("none");
       setOpen(false);
-      //dispatch(commentPost(post.id, {comments: [...comments, newComment]}))
       writePost(newPost, passImg);
       setTimeout(function() {
         window.location.reload(true);
@@ -120,12 +121,18 @@ export default function Feed({posts}) {
             className={classes.input_content}
             id="post-content"
             type="text"
-            placeholder="What's on your mind?"
+            placeholder="何をしている？"
             defaultValue={draft}
             multiline={true}
+            fullWidth
+            disableUnderline
           />
           <br></br>
           <br></br>
+          <img id="preview" src={draftImg} alt="preview" 
+              style={{display: visibility, maxWidth: 300}}
+          />
+          
           <br></br>
           <input
             accept="image/*"
@@ -150,9 +157,6 @@ export default function Feed({posts}) {
           </Button>
           <br></br>
           <br></br>
-          <img id="preview" src={draftImg} alt="preview" 
-              style={{display: visibility, maxWidth: 180}}
-          />
         </div>
       </Modal>
       <div className="feedWrapper">

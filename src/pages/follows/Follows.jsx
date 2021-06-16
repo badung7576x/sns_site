@@ -65,14 +65,8 @@ export default function Follows() {
               ))}
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              {/* {Users.map((u) => (
-                 <UserCard key={u.id} user={u} canFollow={false} />
-              ))} */}
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-              {/* {Users.map((u) => (
-                 <UserCard key={u.id} user={u} canFollow={true} />
-              ))} */}
             </TabPanel>
           </SwipeableViews>
         </div>
