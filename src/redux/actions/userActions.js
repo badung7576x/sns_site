@@ -92,3 +92,16 @@ export const updateAvatar = async (img) => {
       console.log(err);
   }
 };
+
+export const writePost = async (content, img) => {
+  try {
+      const imgUrl = await FirebaseService.uploadImage(img);
+      const data = {...content, image: imgUrl};
+      console.log(data);
+      await FirebaseService.addDocumentToCollection("posts", data);
+  } catch (err) {
+      console.log(err);
+  }
+};
+
+

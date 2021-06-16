@@ -5,6 +5,11 @@ import { Modal, Input, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PhotoCameraOutlinedIcon from "@material-ui/icons/PhotoCameraOutlined";
 import "./feed.css";
+import { writePost } from "../../redux/actions/userActions";
+import { useSelector, useDispatch } from "react-redux";
+import firebase from "firebase";
+import FirebaseService from '../../services/firebaseService'; // for uploadImage function
+import { DraftsOutlined } from "@material-ui/icons";
 
 function getModalStyle() {
   const top = 50;
@@ -38,9 +43,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Feed({posts}) {
   const classes = useStyles();
+  const user = useSelector(state => state.user);
+
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
+  const [visibility, setVisibility] = useState("none");
+  const [draftImg, setDraftImg] = useState(null);
+  const [passImg, setPassImg] = useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -51,6 +61,47 @@ export default function Feed({posts}) {
     var cont = document.getElementById("post-content").value;
     setDraft(cont);
   };
+
+  const readURL = info => {
+    const input = info.target;
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+  
+        reader.onload = function (e) {
+            setDraftImg(e.target.result);
+        };
+  
+        reader.readAsDataURL(input.files[0]);
+        setPassImg(info.target.files[0]);
+        setVisibility("block");
+    }
+  }
+
+  const handleSubmit = () => {
+    if (user.authenticated) {
+      var cont = document.getElementById("post-content").value;
+
+      const newPost = {
+        userId: user.credentials.userId,
+        content: cont,
+        likes: [],
+        comments: [],
+        createdAt: firebase.firestore.Timestamp.now()
+      }
+      setDraftImg(null);
+      setDraft("");
+      setVisibility("none");
+      setOpen(false);
+      //dispatch(commentPost(post.id, {comments: [...comments, newComment]}))
+      writePost(newPost, passImg);
+      setTimeout("location.reload(true);", 3000); // trick here cuz dunno how to do it properly
+    }
+  }
+
+  const handleImage = info => {
+    const image = info.target.files[0];
+    //updateAvatar(image);
+  }
 
   return (
     <div className="feed">
@@ -80,6 +131,7 @@ export default function Feed({posts}) {
             className={classes.image_input}
             id="icon-button-file"
             type="file"
+            onChange={readURL}
           />
           <label htmlFor="icon-button-file">
             <Button
@@ -92,9 +144,14 @@ export default function Feed({posts}) {
             </Button>
           </label>
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-          <Button key="submit" type="primary" variant="outlined">
+          <Button key="submit" type="primary" variant="outlined" onClick={handleSubmit}>
             Post
           </Button>
+          <br></br>
+          <br></br>
+          <img id="preview" src={draftImg} alt="preview image" 
+              style={{display: visibility, maxWidth: 180}}
+          />
         </div>
       </Modal>
       <div className="feedWrapper">

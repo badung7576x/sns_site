@@ -17,6 +17,16 @@ export default class FirebaseService {
     })
   }
 
+  static async addDocumentToCollection(collection, data) {
+    await db.collection(collection).add(data)
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error)
+    })
+  }
+
   static async getDocument(collection, document) {
     return await db.collection(collection).doc(document).get().then((doc) => {
       if (doc.exists) {
