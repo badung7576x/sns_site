@@ -49,3 +49,7 @@
 .profileRightBottom {
   display: flex;
 }
+
+.image-upload>input {
+  display: none;
+}

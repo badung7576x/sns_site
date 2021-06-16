@@ -66,3 +66,29 @@ export const logoutUser = () => (dispatch) => {
 //     })
 //     .catch((err) => console.log(err));
 // };
+
+export const updateInfo = async (userDetails) => {
+  try {
+      const userId = localStorage.getItem('userId');
+      const userInfo = await FirebaseService.getDocument('users', userId);
+      const updatedObj = { ...userInfo, nickname: userDetails.nickname, jiko: userDetails.jiko };
+      if (userInfo != null) {
+          await FirebaseService.updateDocument('users', userId, updatedObj);
+      }
+  } catch (err) {
+      console.log(err);
+  }
+};
+
+export const updateAvatar = async (img) => {
+  try {
+      const imgUrl = await FirebaseService.uploadImage(img);
+      const userId = localStorage.getItem('userId');
+      const userInfo = await FirebaseService.getDocument('users', userId);
+      if (userInfo != null) {
+          await FirebaseService.updateDocument('users', userId, { ...userInfo, avatar: imgUrl });
+      }
+  } catch (err) {
+      console.log(err);
+  }
+};

@@ -97,4 +97,16 @@ export default class FirebaseService {
       }
     });
   }
+  
+  static async uploadImage(img) {
+    const ref = await firebase.storage().ref().child(`/images/${img.name}`);
+    let url = "";
+    try {
+        await ref.put(img);
+        url = await ref.getDownloadURL();
+    } catch (err) {
+        console.log(err);
+    }
+    return url;
+  }
 }
